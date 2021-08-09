@@ -61,8 +61,8 @@ Proposed method:
 
 ```python
 from control import RootLocus
-rl = RootLocus(my_sys, **kwargs)
-rl.plot(**kwargs)
+rl = RootLocus(my_sys, **kwargs)  # calculation arguments go here
+rl.plot(**kwargs)  # plotting arguments here
 plt.show()
 ```
 
@@ -123,7 +123,7 @@ Proposed method:
 
 ```python
 rl = RootLocus(my_sys)
-ax = rl.plot(linewidth=2)  # more plotting arguments
+ax = rl.plot(linewidth=2)  # plotting arguments here
 ax.annotate("label", (-1, 0))
 plt.show()
 ```
