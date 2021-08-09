@@ -164,3 +164,5 @@ plt.show()
 Introducing this would not require the replacement of the MATLAB-like functions `rlocus`, `nyquist`, `pzmap`, etc. although keeping the current `root_locus`, `bode_plot`, and `nyquist_plot` functions seems a bit redundant.
 
 Functions such as `freqresp` would be unaffected and would probably be called by `FreqResp` to do the calculations.
+
+The solution is not going to be as simple as the rlocus example above in the case of all plot functions.  Some generate their own axes objects (e.g. radial plots) and some generate more than one axis (i.e. a complete figure), so each function will have to be considered case-by-case.
