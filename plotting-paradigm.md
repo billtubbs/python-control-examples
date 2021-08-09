@@ -2,37 +2,41 @@
 
 This is a proposal to introduce a different paradigm for the way specialised control analyses and plots are created in Python-Control.
 
-It is based on the way Pandas does plotting.  For example:
+It is based on the way plotting is done in [Pandas](https://pandas.pydata.org/docs/).
+
+For example:
 
 ```python
 s = pandas.Series(my_data, index=my_index, name="my series")  # instantiate object
 print(s.dtype)  # get an attribute
 s.plot(style="o-")  # make a plot
-avg = s.mean()  # do something else with it
+plt.show()
+avg = s.mean()  # do something else
 ```
 
-## Functions that this could affect
+## Functions this proposal could affect
 
-- root_locus
-- pzmap
-- bode_plot
-- nyquist_plot
-- gangof4_plot
-- nichols_plot
-- sisotool?
+- `root_locus`
+- `pzmap`
+- `bode_plot`
+- `nyquist_plot`
+- `gangof4_plot`
+- `nichols_plot`
+- `sisotool`?
 
 
 ## Rationale
 
 The current paradigm for these plot functions is based on the way they are done in MATLAB using the functions `pzmap`, `bode`, `nyquist`, etc. These functions can produce a plot and/or the data itself, depending on how you use them. This style is typical of a functional programming language that does not have support for object-oriented programming.
 
-*Problem*: Doing the calculations and making the plot are two separate tasks.  Doing both with one function is arguably 'overloading' it. This leads to a larger set of arguments and return values and somewhat restricts the amount of variables that can be returned or accessed after the function is called.
+*Problem*:
+- Doing the calculations and making the plot are two separate tasks.  Doing both with one function is arguably 'overloading' it. This leads to a larger set of arguments and return values and somewhat restricts the amount of variables that can be returned or accessed after the function is called.
 
-Solution:
-- Break the process into two steps:
-    1. Do the calculations and generate the data
-    2. Make the plot
-- Use a Python class to access the data and plot method.
+*Solution*:
+- Split the process into two steps:
+    - Step 1, do the calculations and generate the data
+    - Step 2, make the plot
+- Use a Python object (class) to access the data and plot method.
 
 The benefits of this approach are:
 - The inputs, outputs and arguments of each step are separated
@@ -41,7 +45,7 @@ The benefits of this approach are:
 - Easily extensible — more functionality could be added as methods
 - It is familiar to many Python users (e.g. data scientists using Pandas).
 
-To illustrate how this might work I have outlined some examples below.
+To illustrate how this might work, I have outlined some examples below.
 
 ### Example 1 – Root locus plot
 
@@ -56,6 +60,7 @@ plt.show()
 Proposed method:
 
 ```python
+from control import RootLocus
 rl = RootLocus(my_sys, **kwargs)
 rl.plot(**kwargs)
 plt.show()
